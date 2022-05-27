@@ -1,3 +1,7 @@
+// クリアしたら１になるフラグ。
+// ゲームオーバー判定のコードで判定している。
+let clearFlag = 0;
+
 (function() {
     let canvas;
     let ctx;
@@ -198,17 +202,31 @@
 
         // ゲームオーバー判定
         if (line[0] >= canvas.height || line[0] < 0) {
+            if (time > 10){
+                clearFlag = 1;
+                alert("Clear!! あなたの記録は" + Math.floor(time) + "秒です")
+            }
+            else {
+                alert("残念。 あなたの記録は" + Math.floor(time) + "秒です")
+            }
             resetGame();
         } else if ((obstacle[canvas.width/2] != OBSTACLE.INVALID) &&
             ((obstacle[canvas.width/2] - OBSTACLE.HEIGHT) <= line[0]) &&
             (line[0] <= (obstacle[canvas.width/2] + OBSTACLE.HEIGHT))) {
-            resetGame();
+                if (time > 10){
+                    clearFlag = 1;
+                    alert("Clear!! あなたの記録は" + Math.floor(time) + "秒です")
+                }
+                else {
+                    alert("残念。 あなたの記録は" + Math.floor(time) + "秒です")
+                }
+                resetGame();
         } else {
             time += 1/LINE.FPS;
             // 経過時間を表示
             ctx.font = "16px";
             ctx.fillStyle = "rgb(50,250,250)";
-            ctx.fillText('TIME:' + Math.floor(time) + '.' + Math.floor(10 * (time - Math.floor(time))),
+            ctx.fillText('10秒を目指せ!!   ' + 'TIME:' + Math.floor(time) + '.' + Math.floor(10 * (time - Math.floor(time))),
                         10,  // x軸の位置
                         50); // y軸の位置
         }
